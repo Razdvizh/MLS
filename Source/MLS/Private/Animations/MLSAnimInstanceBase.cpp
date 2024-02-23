@@ -28,7 +28,7 @@ void UMLSAnimInstanceBase::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 	{
 		const FVector Velocity = Character->GetCharacterMovement()->Velocity;
 
-		Speed = Velocity.Length();
+		Speed = Velocity.Size2D();
 		Direction = CalculateDirection(Velocity, Character->GetActorRotation());
 	}
 }
