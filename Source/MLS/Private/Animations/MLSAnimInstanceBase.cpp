@@ -5,10 +5,15 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
+constexpr float SPEED_THRESHOLD = 3.f;
+
 UMLSAnimInstanceBase::UMLSAnimInstanceBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer),
 	Speed(0.f),
-	Direction(0.f)
+	SpeedZ(0.f),
+	Direction(0.f),
+	bIsFalling(false),
+	bShouldMove(false)
 {
 	bUseMultiThreadedAnimationUpdate = true;
 }
@@ -26,9 +31,13 @@ void UMLSAnimInstanceBase::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 
 	if (Character)
 	{
-		const FVector Velocity = Character->GetCharacterMovement()->Velocity;
+		const UCharacterMovementComponent* MovementComponent = Character->GetCharacterMovement();
+		const FVector Velocity = MovementComponent->Velocity;
 
 		Speed = Velocity.Size2D();
+		SpeedZ = Velocity.Z;
 		Direction = CalculateDirection(Velocity, Character->GetActorRotation());
+		bIsFalling = MovementComponent->IsFalling();
+		bShouldMove = (!MovementComponent->GetCurrentAcceleration().IsNearlyZero()) && Speed > SPEED_THRESHOLD;
 	}
 }

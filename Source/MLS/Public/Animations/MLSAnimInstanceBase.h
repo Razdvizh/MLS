@@ -31,6 +31,15 @@ private:
 	float Speed;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MLS", meta = (AllowPrivateAccess = true))
+	float SpeedZ;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MLS", meta = (AllowPrivateAccess = true))
 	float Direction;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MLS", meta = (AllowPrivateAccess = true))
+	bool bIsFalling;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MLS", meta = (AllowPrivateAccess = true))
+	bool bShouldMove;
 
 };
