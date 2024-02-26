@@ -29,6 +29,10 @@
 		{
 			"Name": "TraceSourceFilters",
 			"Enabled": true
+		},
+		{
+			"Name": "AnimationBudgetAllocator",
+			"Enabled": true
 		}
 	]
 }

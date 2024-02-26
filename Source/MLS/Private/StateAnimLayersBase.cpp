@@ -37,14 +37,14 @@ void UStateAnimLayersBase::OnInitialUpdateJumpAnim(const FAnimUpdateContext& Con
 	SetBlendSpace(Node, Jump);
 }
 
-void UStateAnimLayersBase::OnInitialUpdateLandAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node)
-{
-	SetAnimSequence(Node, Land);
-}
-
 void UStateAnimLayersBase::OnInitialUpdateFallLoopAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node)
 {
 	SetAnimSequence(Node, FallLoop);
+}
+
+void UStateAnimLayersBase::OnInitialUpdateLandAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node)
+{
+	SetAnimSequence(Node, Land);
 }
 
 bool UStateAnimLayersBase::SetBlendSpace(const FAnimNodeReference& Node, UBlendSpace* BlendSpace) const

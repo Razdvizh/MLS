@@ -34,10 +34,10 @@ protected:
 	void OnInitialUpdateJumpAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node);
 
 	UFUNCTION(BlueprintCallable, Category = "Node Functions", meta = (BlueprintThreadSafe))
-	void OnInitialUpdateLandAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node);
+	void OnInitialUpdateFallLoopAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node);
 
 	UFUNCTION(BlueprintCallable, Category = "Node Functions", meta = (BlueprintThreadSafe))
-	void OnInitialUpdateFallLoopAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node);
+	void OnInitialUpdateLandAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Blend Spaces")
 	UBlendSpace* StandWalkJogRun;
