@@ -5,7 +5,6 @@
 #include "Animation/BlendSpace.h"
 #include "Animation/AnimSequence.h"
 #include "Animation/AnimExecutionContext.h"
-#include "Animation/AnimNodeReference.h"
 #include "Animations/MLSAnimInstanceBase.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "BlendSpacePlayerLibrary.h"
@@ -29,46 +28,64 @@ UMLSAnimInstanceBase* UStateAnimLayersBase::GetMainAnimInstance() const
 
 void UStateAnimLayersBase::OnInitialUpdateIdleAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node)
 {
-	SetBlendSpace(Node, StandWalkJogRun);
+	TBlendSpaceAsset Asset(StandWalkJogRun);
+
+	Asset.SetNodeAsset(Node);
 }
 
 void UStateAnimLayersBase::OnInitialUpdateJumpAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node)
 {
-	SetBlendSpace(Node, Jump);
+	TBlendSpaceAsset Asset(Jump);
+
+	Asset.SetNodeAsset(Node);
 }
 
 void UStateAnimLayersBase::OnInitialUpdateFallLoopAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node)
 {
-	SetAnimSequence(Node, FallLoop);
+	TAnimSequenceAsset Asset(FallLoop);
+
+	Asset.SetNodeAsset(Node);
 }
 
 void UStateAnimLayersBase::OnInitialUpdateLandAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node)
 {
-	SetAnimSequence(Node, Land);
+	TAnimSequenceAsset Asset(Land);
+
+	Asset.SetNodeAsset(Node);
 }
 
-bool UStateAnimLayersBase::SetBlendSpace(const FAnimNodeReference& Node, UBlendSpace* BlendSpace) const
+UStateAnimLayersBase::TBlendSpaceAsset::TBlendSpaceAsset(UBlendSpace* BlendSpace)
+{
+	Asset = BlendSpace;
+}
+
+bool UStateAnimLayersBase::TBlendSpaceAsset::SetNodeAsset(const FAnimNodeReference& Node) const
 {
 	EAnimNodeReferenceConversionResult ConversionResult;
 	FBlendSpacePlayerReference BlendSpacePlayer = UBlendSpacePlayerLibrary::ConvertToBlendSpacePlayer(Node, ConversionResult);
 
 	if (ConversionResult == EAnimNodeReferenceConversionResult::Succeeded)
 	{
-		UBlendSpacePlayerLibrary::SetBlendSpace(BlendSpacePlayer, BlendSpace);
+		UBlendSpacePlayerLibrary::SetBlendSpace(BlendSpacePlayer, StaticCast<UBlendSpace*>(Asset));
 		return true;
 	}
 
 	return false;
 }
 
-bool UStateAnimLayersBase::SetAnimSequence(const FAnimNodeReference& Node, UAnimSequence* Sequence) const
+UStateAnimLayersBase::TAnimSequenceAsset::TAnimSequenceAsset(UAnimSequence* AnimSequence)
+{
+	Asset = AnimSequence;
+}
+
+bool UStateAnimLayersBase::TAnimSequenceAsset::SetNodeAsset(const FAnimNodeReference& Node) const
 {
 	EAnimNodeReferenceConversionResult ConversionResult;
 	FSequencePlayerReference SequencePlayer = USequencePlayerLibrary::ConvertToSequencePlayer(Node, ConversionResult);
-	
+
 	if (ConversionResult == EAnimNodeReferenceConversionResult::Succeeded)
 	{
-		USequencePlayerLibrary::SetSequence(SequencePlayer, Sequence);
+		USequencePlayerLibrary::SetSequence(SequencePlayer, StaticCast<UAnimSequence*>(Asset));
 		return true;
 	}
 
