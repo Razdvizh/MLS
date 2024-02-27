@@ -4,14 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
-#include "Animation/AnimNodeReference.h"
-#include "Animation/AnimationAsset.h"
 #include "StateAnimLayersBase.generated.h"
 
 class UBlendSpace;
 class UAnimSequence;
 class UMLSAnimInstanceBase;
 struct FAnimUpdateContext;
+struct FAnimNodeReference;
 
 /**
  * 
@@ -52,43 +51,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Anim Sequences")
 	UAnimSequence* Land;
 
-#pragma region Anim Assets Classes
 private:
-	template<class DerivedT = UAnimationAsset>
-	class TAnimationAsset
-	{
-	public:
-		template<class DerivedT>
-		inline bool SetNodeAsset(const FAnimNodeReference& Node) const
-		{
-			return StaticCast<DerivedT*>(this)->SetNodeAsset(Node);
-		}
+	bool SetBlendSpace(const FAnimNodeReference& Node, UBlendSpace* BlendSpace) const;
 
-	protected:
-		TAnimationAsset() = default;
+	bool SetAnimSequence(const FAnimNodeReference& Node, UAnimSequence* Sequence) const;
 
-		UPROPERTY()
-		UAnimationAsset* Asset;
-
-	private:
-		friend DerivedT;
-
-	};
-
-	class TBlendSpaceAsset : public TAnimationAsset<TBlendSpaceAsset>
-	{
-	public:
-		TBlendSpaceAsset(UBlendSpace* BlendSpace);
-
-		bool SetNodeAsset(const FAnimNodeReference& Node) const;
-	};
-
-	class TAnimSequenceAsset : public TAnimationAsset<TAnimSequenceAsset>
-	{
-	public:
-		TAnimSequenceAsset(UAnimSequence* AnimSequence);
-
-		bool SetNodeAsset(const FAnimNodeReference& Node) const;
-	};
-#pragma endregion Anim Assets Classes
 };
