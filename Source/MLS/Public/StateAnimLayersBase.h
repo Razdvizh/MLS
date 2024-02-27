@@ -54,7 +54,7 @@ protected:
 
 #pragma region Anim Assets Classes
 private:
-	template<class DerivedT = UAnimationAsset>
+	template<class DerivedT>
 	class TAnimationAsset
 	{
 	public:
