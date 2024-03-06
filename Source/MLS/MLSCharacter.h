@@ -5,11 +5,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "Templates/SubclassOf.h"
 #include "MLSCharacter.generated.h"
 
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
+class UAnimInstance;
 class UInputAction;
 struct FInputActionValue;
 
@@ -27,6 +29,9 @@ class AMLSCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = true))
+	TSubclassOf<UAnimInstance> DefaultAnimLayerClass;
 	
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -45,13 +50,15 @@ class AMLSCharacter : public ACharacter
 	UInputAction* LookAction;
 
 public:
-	AMLSCharacter();
+	AMLSCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	
+	virtual void PostRegisterAllComponents() override;
 
 protected:
-
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
+
+	void OnMoveCompleted();
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);

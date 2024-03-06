@@ -4,14 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "Animations/AnimationAssetWrappers.h"
 #include "StateAnimLayersBase.generated.h"
 
 class UBlendSpace;
 class UAnimSequence;
 class UMLSAnimInstanceBase;
 struct FAnimUpdateContext;
-struct FAnimNodeReference;
-struct FAnimNode_Base;
 
 /**
  * 
@@ -28,11 +27,22 @@ public:
 	UMLSAnimInstanceBase* GetMainAnimInstance() const;
 
 protected:
+	template<class AssetT>
+	inline void SetAnimationAsset(const FAnimNodeReference& Node, TAnimationAsset<AssetT>* Asset) const
+	{
+		static_assert(TIsDerivedFrom<AssetT, TAnimationAsset<AssetT>>::IsDerived, TEXT("AssetT must derive from TAnimationAsset"));
+
+		Asset->SetAnimationAsset<AssetT>(Node);
+	}
+
 	UFUNCTION(BlueprintCallable, Category = "Node Functions", meta = (BlueprintThreadSafe))
 	void OnInitialUpdateIdleAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node);
 
 	UFUNCTION(BlueprintCallable, Category = "Node Functions", meta = (BlueprintThreadSafe))
 	void OnInitialUpdateJumpAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node);
+
+	UFUNCTION(BlueprintCallable, Category = "Node Functions", meta = (BlueprintThreadSafe))
+	void OnInitialUpdateStandJumpAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node);
 
 	UFUNCTION(BlueprintCallable, Category = "Node Functions", meta = (BlueprintThreadSafe))
 	void OnInitialUpdateFallLoopAnim(const FAnimUpdateContext& Context, const FAnimNodeReference& Node);
@@ -51,55 +61,5 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Anim Sequences")
 	UAnimSequence* Land;
-
-#pragma region Anim Assets Classes
-private:
-	template<class DerivedT>
-	class TAnimationAsset
-	{
-	public:
-		template<class DerivedT>
-		inline bool CallAnimNodeFunction(const FAnimNodeReference& Node) const
-		{
-			return StaticCast<const DerivedT*>(this)->CallAnimNodeFunction(Node);
-		}
-
-	protected:
-		TAnimationAsset() = default;
-
-		UPROPERTY()
-		UAnimationAsset* Asset;
-
-	private:
-		friend DerivedT;
-
-	};
-
-	class TBlendSpaceAsset : public TAnimationAsset<TBlendSpaceAsset>
-	{
-	public:
-		TBlendSpaceAsset(UBlendSpace* BlendSpace);
-
-		bool CallAnimNodeFunction(const FAnimNodeReference& Node) const;
-	};
-
-	class TAnimSequenceAsset : public TAnimationAsset<TAnimSequenceAsset>
-	{
-	public:
-		TAnimSequenceAsset(UAnimSequence* AnimSequence);
-
-		bool CallAnimNodeFunction(const FAnimNodeReference& Node) const;
-	};
-#pragma endregion Anim Assets Classes
-
-	template<class AssetT>
-	inline bool SetAnimationAsset(const FAnimNodeReference& Node, const AssetT& Asset) const
-	{
-		return Asset.CallAnimNodeFunction(Node);
-	}
-
-	//bool SetBlendSpace(const FAnimNodeReference& Node, UBlendSpace* BlendSpace) const;
-
-	//bool SetAnimSequence(const FAnimNodeReference& Node, UAnimSequence* Sequence) const;
 
 };
