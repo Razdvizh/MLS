@@ -43,7 +43,7 @@ https://youtu.be/F-KTFv7hoB4
 ## Skeletal Mesh optimizations
 > [Unreal Documentation](https://docs.unrealengine.com/5.3/en-US/animation-optimization-in-unreal-engine/)
 
-Skeletal Mesh component has control over some options regarding udpate of Animation and Physics asset. The main one is **Update Rate Optimizations** which, following the same idea as LODs, reduces quality of animation for farther distances by throttling update rates and disabling frame interpolation. MLS character doesn't use this system because [Animation Budget Allocator](#AnimationBudgetAllocator) plugin is used instead. Also, MLS character has `Component Use Fixed Skel Bounds` enabled which allows to bypass Physics Asset calculations.
+Skeletal Mesh component has control over some options regarding update of Animation and Physics asset. The main one is **Update Rate Optimizations** which, following the same idea as LODs, reduces quality of animation for farther distances by throttling update rates and disabling frame interpolation. MLS character doesn't use this system because [Animation Budget Allocator](#AnimationBudgetAllocator) plugin is used instead. Also, MLS character has `Component Use Fixed Skel Bounds` enabled which allows to bypass Physics Asset calculations.
  
 ## Fast Path
 > [Unreal Documentation](https://docs.unrealengine.com/5.3/en-US/animation-optimization-in-unreal-engine/)
