@@ -23,7 +23,7 @@ In conclusion, ACL can be enabled by default as it doesn't require any additiona
 ## Linked Anim Layers
 > [Unreal Documentation](https://docs.unrealengine.com/5.3/en-US/using-animation-blueprint-linking-in-unreal-engine/)
 
-In MLS, Linked Animation Layers are implemented to address two potential problems in large projects - how to change animation assets and potentially AnimGraph logic for different character states and how to prevent loading of unused animation assets in memory. 
+In MLS, Linked Animation Layers are implemented to address two potential problems in large projects - how to change animation assets or AnimGraph logic for different character states and how to prevent loading of unused animation assets in memory. 
 
 First, main animation blueprint implements **Animation Layer Interface (ALI)** and calls its layers. Layers declared in ALI represent states that can change depending on character state, for example idle animation when on ground or when floating on water. Next step is to create *state animation blueprint* that would declare animation assets and define animation layers in AnimGraph for main anim blueprint. Multiple state anim blueprints and ALIs can be created depending on the complexity of the game. Finally, concrete animation blueprint for the state is derived from state anim blueprint to do nothing but fill empty animation assets declared in the base class. Check the UML diagram below and MLS project to see it in practice.
 
