@@ -3,6 +3,7 @@
 
 #include "Animations/MLSAnimInstanceBase.h"
 #include "GameFramework/Character.h"
+#include "KismetAnimationLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 constexpr float SPEED_THRESHOLD = 3.f;
@@ -36,7 +37,7 @@ void UMLSAnimInstanceBase::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 
 		Speed = Velocity.Size2D();
 		SpeedZ = Velocity.Z;
-		Direction = CalculateDirection(Velocity, Character->GetActorRotation());
+		Direction = UKismetAnimationLibrary::CalculateDirection(Velocity, Character->GetActorRotation());
 		bIsFalling = MovementComponent->IsFalling();
 		bShouldMove = (!MovementComponent->GetCurrentAcceleration().IsNearlyZero()) && Speed > SPEED_THRESHOLD;
 	}

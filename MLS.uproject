@@ -37,6 +37,10 @@
 		{
 			"Name": "AnimationBudgetAllocator",
 			"Enabled": true
+		},
+		{
+			"Name": "SignificanceManager",
+			"Enabled": true
 		}
 	]
 }

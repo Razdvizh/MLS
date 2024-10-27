@@ -9,6 +9,6 @@ public class MLS : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", 
-			"AnimGraphRuntime", "AnimationBudgetAllocator" });
+			"AnimGraphRuntime", "AnimationBudgetAllocator", "SignificanceManager" });
 	}
 }
