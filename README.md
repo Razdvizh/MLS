@@ -40,11 +40,19 @@ Animation budget allocator replaces prior **Update Rate Optimizations (URO)** th
 
 https://youtu.be/F-KTFv7hoB4
 
+<a id="SkeletalMeshOptimizations"></a>
 ## Skeletal Mesh optimizations
 > [Unreal Documentation](https://docs.unrealengine.com/5.3/en-US/animation-optimization-in-unreal-engine/)
 
 Skeletal Mesh component has control over some options regarding update of Animation and Physics asset. The main one is **Update Rate Optimizations** which, following the same idea as LODs, reduces quality of animation for farther distances by throttling update rates and disabling frame interpolation. MLS character doesn't use this system because [Animation Budget Allocator](#AnimationBudgetAllocator) plugin is used instead. Also, MLS character has `Component Use Fixed Skel Bounds` enabled which allows to bypass Physics Asset calculations.
- 
+
+## Significance Manager
+> [Unreal Documentation](https://dev.epicgames.com/documentation/en-us/unreal-engine/significance-manager-in-unreal-engine?application_version=5.3)
+> 
+> Thanks [@apokrif6](https://github.com/apokrif6) for suggesting this idea
+
+Significance manager provides a framework which developers can use to assign significance to an object and perform optimizations on it based on the calculated significance value. It can be used to improve performance in different areas, including animations. In MLS, budgeted character reduces its tick interval based on the view distance of other players. Significance manager can lay out more control on other optimization techniques, in particular the [Animation Budget Allocator](#AnimationBudgetAllocator) and [Skeletal Mesh optimizations](#SkeletalMeshOptimizations).
+
 ## Fast Path
 > [Unreal Documentation](https://docs.unrealengine.com/5.3/en-US/animation-optimization-in-unreal-engine/)
 
